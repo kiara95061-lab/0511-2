@@ -8,10 +8,10 @@
 </head>
 <body>
     <div id="game-container">
-        <h1 id="instruction">請點選 <span>綠色 Green</span> 並塗滿葉子！</h1>
+        <h1 id="instruction">請點選 <span class="green-text">綠色 Green</span> 並塗滿葉子！</h1>
 
         <div class="canvas-wrapper">
-            <img src="https://img.icons8.com/color/480/leaf.png" id="target-img">
+            <img src="https://cdn-icons-png.flaticon.com/512/892/892926.png" id="target-img">
             <canvas id="paint-canvas"></canvas>
         </div>
 
@@ -25,6 +25,7 @@
     <div id="success-overlay">
         <h1>恭喜答對！！</h1>
         <p>👏👏👏</p>
+        <button onclick="location.reload()" style="font-size: 20px; padding: 10px;">再玩一次</button>
     </div>
 
     <script src="script.js"></script>
