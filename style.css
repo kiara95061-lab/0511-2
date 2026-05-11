@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft JhengHei", sans-serif;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    touch-action: none; /* 防止手機瀏覽器縮放 */
+}
+
+#game-container {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+#instruction span {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+.canvas-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+}
+
+#target-img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+#paint-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    cursor: crosshair;
+    border-radius: 15px;
+}
+
+#palette {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 50px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn:active { transform: scale(0.9); }
+.red { background-color: #e74c3c; }
+.green { background-color: #2ecc71; }
+.blue { background-color: #3498db; }
+
+/* 成功畫面 */
+#success-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(46, 204, 113, 0.9); [span_5](start_span)/* 綠色背景填滿[span_5](end_span) */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3rem;
+    z-index: 100;
+}
