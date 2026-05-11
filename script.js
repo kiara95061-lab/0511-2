@@ -4,13 +4,20 @@ const successOverlay = document.getElementById('success-overlay');
 let isSelectedGreen = false;
 let isDrawing = false;
 
-// 初始化畫布尺寸與灰色遮罩
 function initCanvas() {
+    // 確保畫布大小與容器一致
     canvas.width = 300;
     canvas.height = 300;
-    ctx.fillStyle = '#bdc3c7'; // 初始灰色遮罩
+    
+    // 1. 先把畫布填滿灰色 (這就是蓋在葉子上的遮罩)
+    ctx.globalCompositeOperation = 'source-over'; // 確保現在是「畫上去」模式
+    ctx.fillStyle = '#bdc3c7'; // 灰色
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.globalCompositeOperation = 'destination-out'; // 關鍵：讓塗鴉變成「擦除」
+    
+    // 2. 設定「擦除」模式
+    // 這樣之後手指滑過時，才會把灰色「擦掉」露出底下的綠色葉子
+    ctx.globalCompositeOperation = 'destination-out'; 
+}
 }
 
 [span_9](start_span)// 語音引導[span_9](end_span)
