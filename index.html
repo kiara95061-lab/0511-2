@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>魔法色彩塗鴉 - 綠色關卡</title>
+    <title>色彩挑戰 - 魔法塗鴉</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-ui">
-        [span_6](start_span)[span_7](start_span)<h1 id="instruction">請找出綠色 Green 塗滿葉子！</h1>[span_6](end_span)[span_7](end_span)
-        
-        <div class="canvas-container">
+    <div id="game-container">
+        <h1 id="instruction">請點選 <span>綠色 Green</span> 並塗滿葉子！</h1>
+
+        <div class="canvas-wrapper">
+            <img src="https://img.icons8.com/color/480/leaf.png" id="target-img">
             <canvas id="paint-canvas"></canvas>
-            <img src="leaf-green.png" id="target-image" style="display:none;">
         </div>
 
-        <div id="color-palette">
-            <div class="color-btn red" onclick="selectColor('red')">紅色</div>
-            [span_8](start_span)<div class="color-btn green" onclick="selectColor('green')">綠色 Green</div>[span_8](end_span)
-            <div class="color-btn blue" onclick="selectColor('blue')">藍色</div>
+        <div id="palette">
+            <button class="btn red" onclick="checkColor('red')">紅色</button>
+            <button class="btn green" onclick="checkColor('green')">綠色 Green</button>
+            <button class="btn blue" onclick="checkColor('blue')">藍色</button>
         </div>
     </div>
+
+    <div id="success-overlay">
+        <h1>恭喜答對！！</h1>
+        <p>👏👏👏</p>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
