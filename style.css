@@ -2,124 +2,106 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Microsoft JhengHei", sans-serif;
-    background-color: #f0f0f0;
-    overflow: hidden;
+    background-color: #f9f9f9;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    touch-action: none; /* 防止手機瀏覽器縮放 */
+    overflow: hidden;
+    touch-action: none;
 }
 
-#game-container {
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-}
+#game-container { text-align: center; width: 100%; }
 
-#instruction span {
-    color: #2ecc71;
-    font-weight: bold;
-}
+.green-text { color: #2ecc71; font-weight: bold; }
 
+/* 畫布與圖片疊放 */
 .canvas-wrapper {
     position: relative;
     width: 300px;
     height: 300px;
     margin: 20px auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 #target-img {
-    width: 100%;
-    height: 100%;
+    width: 200px;
+    height: 200px;
     position: absolute;
-    top: 0; left: 0;
+    top: 50px;
+    left: 50px;
+    z-index: 1; /* 在下面 */
 }
 
 #paint-canvas {
     position: absolute;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
+    z-index: 2; /* 在上面 */
+    border-radius: 20px;
     cursor: crosshair;
-    border-radius: 15px;
 }
 
+/* 畫筆按鈕樣式 */
 #palette {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 20px;
     margin-top: 20px;
 }
 
-.btn {
-    padding: 15px 25px;
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-size: 18px;
+.brush {
+    width: 60px;
+    height: 100px;
+    border-radius: 10px 10px 5px 5px;
+    position: relative;
     cursor: pointer;
     transition: transform 0.2s;
 }
 
-.btn:active { transform: scale(0.9); }
-.red { background-color: #e74c3c; }
-.green { background-color: #2ecc71; }
-.blue { background-color: #3498db; }
+.brush:active { transform: translateY(-10px); }
 
-/* 成功畫面 */
+/* 畫筆筆尖 */
+.brush::after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 5px;
+    width: 50px;
+    height: 30px;
+    border-radius: 50% 50% 0 0;
+}
+
+.red { background: #ff7675; }
+.red::after { background: #d63031; }
+
+.green { background: #55efc4; border: 3px solid #00b894; }
+.green::after { background: #00b894; }
+
+.blue { background: #74b9ff; }
+.blue::after { background: #0984e3; }
+
+.label { margin-top: 110px; font-weight: bold; font-size: 14px; }
+
+/* 成功特效 */
 #success-overlay {
     display: none;
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(46, 204, 113, 0.9); [span_5](start_span)/* 綠色背景填滿[span_5](end_span) */
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(46, 204, 113, 0.95);
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: white;
-    font-size: 3rem;
     z-index: 100;
 }
-.green-text {
-    color: #2ecc71;
-}
 
-.canvas-wrapper {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 20px auto;
-    background-color: white; /* 增加底色方便觀察 */
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-#target-img {
-    width: 250px; /* 稍微縮小一點 */
-    height: 250px;
-    position: absolute;
-    top: 25px; 
-    left: 25px;
-    z-index: 1;
-}
-
-#paint-canvas {
-    position: absolute;
-    top: 0; 
-    left: 0;
-    z-index: 2; /* 確保畫布在圖片上方 */
-    cursor: crosshair;
-    touch-action: none;
-}
-
-/* 讓按鈕分開一點，不要重疊 */
-#palette {
-    display: flex;
-    flex-direction: column; /* 改成垂直排列對幼兒來說比較好點 */
-    align-items: center;
-    gap: 10px;
-}
-
-.btn {
-    width: 80%;
-    max-width: 300px;
+#success-overlay button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
 }
