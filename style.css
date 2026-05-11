@@ -79,3 +79,47 @@ body {
     font-size: 3rem;
     z-index: 100;
 }
+.green-text {
+    color: #2ecc71;
+}
+
+.canvas-wrapper {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+    background-color: white; /* 增加底色方便觀察 */
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#target-img {
+    width: 250px; /* 稍微縮小一點 */
+    height: 250px;
+    position: absolute;
+    top: 25px; 
+    left: 25px;
+    z-index: 1;
+}
+
+#paint-canvas {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    z-index: 2; /* 確保畫布在圖片上方 */
+    cursor: crosshair;
+    touch-action: none;
+}
+
+/* 讓按鈕分開一點，不要重疊 */
+#palette {
+    display: flex;
+    flex-direction: column; /* 改成垂直排列對幼兒來說比較好點 */
+    align-items: center;
+    gap: 10px;
+}
+
+.btn {
+    width: 80%;
+    max-width: 300px;
+}
