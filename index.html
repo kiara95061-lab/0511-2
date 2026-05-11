@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>魔法色彩塗鴉 - 綠色關卡</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-ui">
+        [span_6](start_span)[span_7](start_span)<h1 id="instruction">請找出綠色 Green 塗滿葉子！</h1>[span_6](end_span)[span_7](end_span)
+        
+        <div class="canvas-container">
+            <canvas id="paint-canvas"></canvas>
+            <img src="leaf-green.png" id="target-image" style="display:none;">
+        </div>
+
+        <div id="color-palette">
+            <div class="color-btn red" onclick="selectColor('red')">紅色</div>
+            [span_8](start_span)<div class="color-btn green" onclick="selectColor('green')">綠色 Green</div>[span_8](end_span)
+            <div class="color-btn blue" onclick="selectColor('blue')">藍色</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
