@@ -3,31 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>色彩挑戰 - 魔法塗鴉</title>
-    <link rel="stylesheet" href="style.css">
+    <title>色彩挑戰 - 魔法畫筆</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: "Microsoft JhengHei", sans-serif; background-color: #f9f9f9; overflow: hidden; display: flex; justify-content: center; align-items: center; height: 100vh; touch-action: none; }
+        #game-container { text-align: center; width: 100%; max-width: 500px; }
+        .green-text { color: #2ecc71; font-weight: bold; }
+        
+        /* 畫布容器 */
+        .canvas-wrapper { position: relative; width: 300px; height: 300px; margin: 20px auto; background: #fff; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        #target-img { width: 220px; height: 220px; position: absolute; top: 40px; left: 40px; z-index: 1; }
+        #paint-canvas { position: absolute; top: 0; left: 0; z-index: 2; cursor: crosshair; touch-action: none; border-radius: 20px; }
+
+        /* 畫筆按鈕樣式 */
+        #palette { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+        .brush {
+            width: 60px; height: 120px; 
+            border-radius: 10px 10px 5px 5px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s;
+            border: 2px solid #ddd;
+        }
+        .brush:active { transform: translateY(-10px); }
+        .brush::after { content: ""; position: absolute; top: -15px; left: 5px; width: 50px; height: 30px; border-radius: 50% 50% 0 0; }
+        
+        /* 畫筆顏色設定 */
+        .red { background-color: #ff7675; }
+        .red::after { background-color: #d63031; }
+        .green { background-color: #55efc4; border: 4px solid #00b894; } /* 提示正確顏色 */
+        .green::after { background-color: #00b894; }
+        .blue { background-color: #74b9ff; }
+        .blue::after { background-color: #0984e3; }
+
+        .brush-label { font-size: 14px; margin-top: 130px; font-weight: bold; }
+
+        #success-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(46, 204, 113, 0.95); flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 100; text-align: center; }
+    </style>
 </head>
 <body>
     <div id="game-container">
-        <h1 id="instruction">請點選 <span class="green-text">綠色 Green</span> 並塗滿葉子！</h1>
-
+        [span_0](start_span)[span_1](start_span)<h1 id="instruction">請選 <span class="green-text">綠色畫筆</span> 塗滿葉子！[span_0](end_span)[span_1](end_span)</h1>
         <div class="canvas-wrapper">
             <img src="https://cdn-icons-png.flaticon.com/512/892/892926.png" id="target-img">
             <canvas id="paint-canvas"></canvas>
         </div>
-
         <div id="palette">
-            <button class="btn red" onclick="checkColor('red')">紅色</button>
-            <button class="btn green" onclick="checkColor('green')">綠色 Green</button>
-            <button class="btn blue" onclick="checkColor('blue')">藍色</button>
+            <div class="brush red" onclick="checkColor('red')"><div class="brush-label">紅色</div></div>
+            <div class="brush green" onclick="checkColor('green')"><div class="brush-label">綠色</div></div>
+            <div class="brush blue" onclick="checkColor('blue')"><div class="brush-label">藍色</div></div>
         </div>
     </div>
 
     <div id="success-overlay">
-        <h1>恭喜答對！！</h1>
-        <p>👏👏👏</p>
-        <button onclick="location.reload()" style="font-size: 20px; padding: 10px;">再玩一次</button>
+        [span_2](start_span)<h1>恭喜答對！！[span_2](end_span)</h1>
+        [span_3](start_span)[span_4](start_span)<p style="font-size: 1.5rem;">太棒了！葉子是綠色 Green！[span_3](end_span)[span_4](end_span)</p>
+        <button onclick="location.reload()" style="padding: 15px 30px; font-size: 20px; cursor: pointer; border-radius: 10px; border: none; background: white;">再玩一次</button>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const canvas = document.getElementById('paint-canvas');
+        const ctx = canvas.getContext('2d');
+        const successOverlay = document.getElementById('success-overlay');
+        let isSelectedGreen = false;
+        let isDrawing = false;
+
+        [span_5](start_span)// 核心修復：確保畫布在初始化時蓋上灰色[span_5](end_span)
+        function initCanvas() {
+            canvas.width = 300;
+            canvas.height = 300;
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = '#d1d8e0'; [span_6](start_span)// 更柔和的灰色[span_6](end_span)
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // 寫上提示字
+            ctx.fillStyle = "#7f8c8d";
+            ctx.font = "20px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("點選畫筆開始塗鴉", 150, 150);
+            
+            ctx.globalCompositeOperation = 'destination-out'; 
+        }
+
+        function speak(text) {
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'zh-TW';
+            window.speechSynthesis.speak(msg);
+        }
+
+        function checkColor(color) {
+            if (color === 'green') {
+                isSelectedGreen = true;
+                [span_7](start_span)[span_8](start_span)speak("正確！請找出綠色 green 的物品並塗滿它！[span_7](end_span)[span_8](end_span)");
+            } else {
+                isSelectedGreen = false;
+                [span_9](start_span)speak("這不是綠色喔，再試試看[span_9](end_span)");
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing || !isSelectedGreen) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+            ctx.beginPath();
+            ctx.arc(x, y, 35, 0, Math.PI * 2);
+            ctx.fill();
+            checkProgress();
+        }
+
+        function checkProgress() {
+            const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            let clearPixels = 0;
+            for (let i = 3; i < pixels.length; i += 4) { if (pixels[i] === 0) clearPixels++; }
+            if (clearPixels > (pixels.length / 4) * 0.65) {
+                successOverlay.style.display = 'flex';
+                [span_10](start_span)speak("恭喜答對！！成功找到綠色囉！[span_10](end_span)");
+            }
+        }
+
+        canvas.addEventListener('mousedown', () => isDrawing = true);
+        window.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('touchstart', (e) => { isDrawing = true; draw(e); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('touchmove', (e) => { draw(e); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('touchend', () => isDrawing = false);
+
+        // 確保視窗載入後再執行畫布初始化
+        window.onload = initCanvas;
+    </script>
 </body>
 </html>
